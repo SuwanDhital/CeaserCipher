@@ -1,3 +1,4 @@
+"""This CODE_RANGE stores the constant shifting values from a to z"""
 CODE_RANGE = 'abcdefghijklmnopqrstuvwxyz'
 CODE_RANGE_LENGTH = len(CODE_RANGE)
 RED = '\033[91m'
@@ -80,7 +81,7 @@ def write_message(encrypted_file_content):
     '''
     with open("result.txt", "w",encoding='utf-8') as file:
         file.write(encrypted_file_content)
-        print(f"{RESET}Encrypted Text are stoRED in file named result.txt.")
+        print(f"{RESET}Encrypted Text are stored in file named result.txt.")
 
 def encrypt(normal_text, key):
     ''' Encrypt the plain text
@@ -93,7 +94,7 @@ def encrypt(normal_text, key):
     encrypted_text = ''
     for letter in normal_text:
         letter = letter.lower()
-        if 'a' <= letter <= 'z':  
+        if 'a' <= letter <= 'z':
             letter_place = CODE_RANGE.find(letter)
             replaced_letter_place = (letter_place + int(key)) % CODE_RANGE_LENGTH
             encrypted_text += CODE_RANGE[replaced_letter_place]
@@ -108,14 +109,13 @@ def decrypt(encrypted_text, key):
             key(str): Shift Key used to shift the value during decryption.
         Returns:
             normal_text(str): decrypted text.
-    
     '''
     normal_text = ''
     for letter in encrypted_text:
         letter = letter.lower()
-        if 'a' <= letter <= 'z': 
+        if 'a' <= letter <= 'z':
             letter_place = CODE_RANGE.find(letter)
-            replaced_letter_place = (letter_place - int(key)) % CODE_RANGE_LENGTH 
+            replaced_letter_place = (letter_place - int(key)) % CODE_RANGE_LENGTH
             normal_text += CODE_RANGE[replaced_letter_place]
         else:
             normal_text += letter
@@ -127,7 +127,7 @@ def loop_terminator():
             bool : True or False.
     '''
     while True:
-        print("\n{RESET}-------------------------------------------------------\n")
+        print(f"\n{RESET}-------------------------------------------------------\n")
         value = str.lower(input(f"Would you like to encrypt/decrypt another message? (y/n):{RED}"))
 
         if value == 'n':
@@ -151,7 +151,7 @@ def shift_value():
             return key
         except ValueError:
             print(f"{RESET}SHIFT KEY SHOULD BE NON-DECIMAL NEUMERICAL VALUE")
-            continue           
+            continue
 
 def main():
     ''' Main Function where all functions are segregated '''
@@ -166,7 +166,7 @@ def main():
             if choice[1] == 'file':
                 data = encrypt(choice[0], key)
             elif choice[1] == 'text':
-                data = encrypt(choice[0], key) 
+                data = encrypt(choice[0], key)
         elif task == 'decrypt':
             if choice[1] == 'file':
                 data = decrypt(choice[0], key)
