@@ -1,15 +1,18 @@
-codeRange = 'abcdefghijklmnopqrstuvwxyz';
-codeRangeLength = len(codeRange);
-red = '\033[91m';
-reset = '\033[0m';
+CODE_RANGE = 'abcdefghijklmnopqrstuvwxyz'
+CODE_RANGE_LENGTH = len(CODE_RANGE)
+RED = '\033[91m'
+RESET = '\033[0m'
 
 def welcome():
     '''Display welcome message to the user.'''
-    print(f"\n{reset}                        ___CEASER CIPHER___ \n                       ___BY SUWAN DHITAL___ \n---------------------------------------------------------------- \n Encrypt or Decrypt your File/Text using CeaserCipher Method... \n----------------------------------------------------------------");
+    print(f"\n{RESET}                        ___CEASER CIPHER___ \n")
+    print("                       ___BY SUWAN DHITAL___ \n")
+    print("---------------------------------------------------------------- \n")
+    print(" Encrypt or Decrypt your File/Text using CeaserCipher Method... \n")
+    print("----------------------------------------------------------------")
 
 
-
-def encryptOrDecrypt():
+def encrypt_or_decrypt():
     '''Ask user to choose encryption or decryption
        Args: 
             None
@@ -18,194 +21,178 @@ def encryptOrDecrypt():
             str: encrypt or decrypt as per user choice.
     '''
     while True:
-        
-        userInput = str.lower(input(f"\n{reset}Enter choice as per instruction: \n Press 'e' for Encryption. \n Press 'd' for Decryption.\n====================>{red}"));
-       
-        if userInput == 'e':
-            return 'encrypt';
-            break;
-        elif userInput == 'd':
-            return 'decrypt';
-            break;
-        else:
-            print(f"{reset}PLEASE ENTER VALID CHOICE");
+        print(f"\n{RESET}Enter choice as per instruction:\n Press 'e' for Encryption.")
+        print("\n Press 'd' for Decryption.\n")
+        user_input = str.lower(input(f"====================>{RED}"))
 
-            
-def message_or_file(task):
+        if user_input == 'e':
+            return 'encrypt'
+        if user_input == 'd':
+            return 'decrypt'
+
+        print(f"{RESET}PLEASE ENTER VALID CHOICE")
+
+def enter_message(task):
     '''Ask user to choose file or text that is need to be encrypted or decrypted.
        Args: 
             task(str): 'encrypt' or 'decrypt'.
 
        Returns:
-            str: 'contents inside the file' or 'User entered text'.
+            str: 'contents inside the file' or 'User enteRED text'.
             str: 'file' or 'text'.
     '''
     while True:
-        userInput = input(f"\n{reset} Press 't' for text. \n Press 'f' for file. \n====================> {red}");
-        if userInput == 'f':
-            filePath = input(f"\n{reset}Enter Correct FileName:{red}");
-            fileContent = process_file(filePath, task);
-            return fileContent, 'file';
-            break;
-        elif userInput == 't':
-            normalText = input(f"\n{reset}Enter Text for {task}ion:\n=>{red}");
-            return normalText, 'text';
-            break;
-        else:
-            print(f"{reset}PLEASE ENTER VALID CHOICE");
+        print(f"\n{RESET} Press 't' for text. \n Press 'f' for file. \n")
+        user_input = input(f"====================> {RED}")
+        if user_input == 'f':
+            file_path = input(f"\n{RESET}Enter Correct FileName:{RED}")
+            file_content = process_file(file_path, task)
+            return file_content, 'file'
 
-          
-def process_file(fileName, task):
+        if user_input == 't':
+            normal_text = input(f"\n{RESET}Enter Text for {task}ion:\n=>{RED}")
+            return normal_text, 'text'
+        print(f"{RESET}PLEASE ENTER VALID CHOICE")
+
+def process_file(file_name, task):
     '''Read the content of the file.
        Args: 
-            fileName(str): Name of file.
+            file_name(str): Name of file.
             task(str): 'encrypt' or 'decrypt'.
 
        Returns:
-            str: 'contents inside the file' or 'User entered text'.
+            str: 'contents inside the file' or 'User enteRED text'.
     '''
     try:
-        with open(fileName, 'r') as file:
-            fileContent = file.read();
-            return fileContent;
+        with open(file_name, 'r',encoding='utf-8') as file:
+            file_content = file.read()
+            return file_content
 
     except FileNotFoundError:
-        print(f"{reset}FILE NOT FOUND");
-        message_or_file(task);
+        print(f"{RESET}FILE NOT FOUND")
+        enter_message(task)
 
 
-def write_message(encryptedFileContent): 
+def write_message(encrypted_file_content):
     '''Read the content of the file.
        Args: 
-            encryptedFileContent(str): encrypted contents that is retrived from the file.
-
+            encrypted_file_content(str): encrypted contents that is retrived from the file.
     '''
-    with open(f"result.txt", "w") as file:
-        file.write(encryptedFileContent);
-        print(f"{reset}Encrypted Text are stored in file named result.txt.");
-    
+    with open("result.txt", "w",encoding='utf-8') as file:
+        file.write(encrypted_file_content)
+        print(f"{RESET}Encrypted Text are stoRED in file named result.txt.")
 
-def encrypt(normalText, key):
+def encrypt(normal_text, key):
     ''' Encrypt the plain text
         Args:
-            normalText(str): Text taken from user or file.
+            normal_text(str): Text taken from user or file.
             key(str): Shift Key used to shift the value during encryption.
         Returns:
-            encryptedText(str): encrypted text
-    
+            encrypted_text(str): encrypted text
     '''
-    encryptedText = '';
-    for letter in normalText:
-        letter = letter.lower();
+    encrypted_text = ''
+    for letter in normal_text:
+        letter = letter.lower()
         if 'a' <= letter <= 'z':  
-            letterPlace = codeRange.find(letter);
-            replacedLetterPlace = (letterPlace + int(key)) % codeRangeLength;
-            encryptedText += codeRange[replacedLetterPlace];
+            letter_place = CODE_RANGE.find(letter)
+            replaced_letter_place = (letter_place + int(key)) % CODE_RANGE_LENGTH
+            encrypted_text += CODE_RANGE[replaced_letter_place]
         else:
-            encryptedText += letter;
-    return encryptedText.upper();
+            encrypted_text += letter
+    return encrypted_text.upper()
 
-        
-
-def decrypt(encryptedText, key):
+def decrypt(encrypted_text, key):
     ''' Decrypt the encrypted text
         Args:
-            encryptedText(str): Text taken from user or file .
+            encrypted_text(str): Text taken from user or file .
             key(str): Shift Key used to shift the value during decryption.
         Returns:
-            normalText(str): decrypted text.
+            normal_text(str): decrypted text.
     
     '''
-    normalText = '';
-    for letter in encryptedText:
-        letter = letter.lower();
+    normal_text = ''
+    for letter in encrypted_text:
+        letter = letter.lower()
         if 'a' <= letter <= 'z': 
-                letterPlace = codeRange.find(letter);
-                replacedLetterPlace = (letterPlace - int(key)) % codeRangeLength ;
-                normalText += codeRange[replacedLetterPlace];
+            letter_place = CODE_RANGE.find(letter)
+            replaced_letter_place = (letter_place - int(key)) % CODE_RANGE_LENGTH 
+            normal_text += CODE_RANGE[replaced_letter_place]
         else:
-                normalText += letter;
-    return normalText;
+            normal_text += letter
+    return normal_text
 
-def loopTermination():
+def loop_terminator():
     ''' Logic to terminate the loop as per user choice.
          Returns:
             bool : True or False.
     '''
     while True:
-            value = str.lower(input(f"\n{reset}-------------------------------------------------------\nWould you like to encrypt/decrypt another message? (y/n):{red}"));
+        print("\n{RESET}-------------------------------------------------------\n")
+        value = str.lower(input(f"Would you like to encrypt/decrypt another message? (y/n):{RED}"))
 
-            if(value == 'n'):
-                print(f"\n{reset}-------------------------------------------------------\n      Thanks for using the program, Have a goodday....\n-------------------------------------------------------\n");
-                return False;
-                break;
+        if value == 'n':
+            print(f"\n{RESET}-------------------------------------------------------\n")
+            print("      Thanks for using the program, Have a goodday....\n")
+            print("-------------------------------------------------------\n")
+            return False
+        if value == 'y':
+            return True
+        print(f"{RESET}INVALID INPUT")
+        continue
 
-            elif(value == 'y'):
-                return True;
-                break;
-            else:
-                print(f"{reset}INVALID INPUT")
-                continue;
-
-def shiftValue():
+def shift_value():
     ''' Take shift Key from user and return the value.
          Returns:
-           key(str): Shifting Value required during encryption.
+           key(str): Shifting Value requiRED during encryption.
     '''
     while True:
-      key = input(f"\n{reset}Enter the shift value:{red}");
-      try:
-        return key;  
-        break;
-      except ValueError:
-          print(f"{reset}SHIFT KEY SHOULD BE NON-DECIMAL NEUMERICAL VALUE")
-          continue;
+        key = input(f"\n{RESET}Enter the shift value:{RED}")
+        try:
+            return key
+        except ValueError:
+            print(f"{RESET}SHIFT KEY SHOULD BE NON-DECIMAL NEUMERICAL VALUE")
+            continue           
 
-              
-
-def combineAll():
+def main():
     ''' Main Function where all functions are segregated '''
-    welcome();
+    welcome()
     loop = True
     while loop:
-        task = encryptOrDecrypt();
-        choice = message_or_file(task);
-        data ='';
-        fileName ='';
-        key = shiftValue();
+        task = encrypt_or_decrypt()
+        choice = enter_message(task)
+        data =''
+        key = shift_value()
         if task == 'encrypt':
             if choice[1] == 'file':
-                data = encrypt(choice[0], key);
+                data = encrypt(choice[0], key)
             elif choice[1] == 'text':
-                data = encrypt(choice[0], key);
-                  
+                data = encrypt(choice[0], key) 
         elif task == 'decrypt':
             if choice[1] == 'file':
-                data = decrypt(choice[0], key);
+                data = decrypt(choice[0], key)
             elif choice[1] == 'text':
-                data = decrypt(choice[0], key);
-
-        print(f"\n{reset}----------------------------------------------------------\n  Congrats, Your text has been {task}ed successfully.... \n----------------------------------------------------------");
+                data = decrypt(choice[0], key)
+        print(f"\n{RESET}----------------------------------------------------------\n")
+        print(f"  Congrats, Your text has been {task}ed successfully.... \n")
+        print("----------------------------------------------------------")
 
         while True:
-            saveOrView = str.lower(input(f"\n{reset} Press v to View. \n Press s to Save. \n Press b for Both. \n ====================>{red}"));
-            if saveOrView == 'v':
-                print(f"\n{reset}The {task}ed content of given {choice[1]} are: \n-------------------------------------------------------\n", data);
-                break;
+            print(f"\n{RESET} Press v to View. \n Press s to Save. \n")
+            save_or_view = str.lower(input(f" Press b for Both. \n ====================>{RED}"))
+            if save_or_view == 'v':
+                print(f"\n{RESET}The {task}ed content of given {choice[1]} are:")
+                print(" \n-------------------------------------------------------\n", data)
+                break
+            if save_or_view == 's':
+                write_message(data)
+                break
+            if save_or_view == 'b':
+                print(f"\n{RESET}The {task}ed content of given {choice[1]} are: ")
+                print("\n-------------------------------------------------------\n", data)
+                write_message(data)
+                print(f"\n{RESET}{task}ed data saved successfully...")
+                break
+            print(f"{RESET}INVALID INPUT")
+        loop = loop_terminator()
 
-            elif saveOrView == 's':
-               write_message(data);
-               break
-               
-
-            elif saveOrView == 'b':
-                print(f"\n{reset}The {task}ed content of given {choice[1]} are: \n-------------------------------------------------------\n", data);
-                write_message(data);
-                print(f"\n{reset}{task}ed data saved successfully...");
-                break;
-            else:
-                print(f"{reset}INVALID INPUT")
-
-        loop = loopTermination()
-
-combineAll();
+main()
