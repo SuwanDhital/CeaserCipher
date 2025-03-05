@@ -139,12 +139,5 @@ The **Caesar Cipher** is a classic encryption technique that shifts the letters 
 - **`shift_value()`**: Prompts the user to enter the shift value. 🔢
 - **`main()`**: The main function that orchestrates the program flow. 🎯
 
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👤 Author
-- **Suwan Dhital** ✍️
-
 ---
-
 Thank you for exploring the Caesar Cipher project! If you have any questions or feedback, feel free to reach out. Happy encrypting! 🔐✨
